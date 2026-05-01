@@ -77,6 +77,12 @@ const sendAuthResponse = (res, user, statusCode = 200) => {
 // ─────────────────────────────────────────────────────────
 // POST /api/auth/register — Email + Password Registration
 // ─────────────────────────────────────────────────────────
+/**
+ * Registers a new user with email and password.
+ * @route POST /api/auth/register
+ * @param {Object} req - Express request object containing name, email, and password.
+ * @param {Object} res - Express response object.
+ */
 const register = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -107,6 +113,12 @@ const register = asyncHandler(async (req, res) => {
 // ─────────────────────────────────────────────────────────
 // POST /api/auth/login — Email + Password Login
 // ─────────────────────────────────────────────────────────
+/**
+ * Authenticates a user with email and password.
+ * @route POST /api/auth/login
+ * @param {Object} req - Express request object containing email and password.
+ * @param {Object} res - Express response object.
+ */
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -138,6 +150,12 @@ const login = asyncHandler(async (req, res) => {
 // ─────────────────────────────────────────────────────────
 // POST /api/auth/google — Firebase Google Sign-In
 // ─────────────────────────────────────────────────────────
+/**
+ * Authenticates or registers a user via Firebase Google OAuth.
+ * @route POST /api/auth/google
+ * @param {Object} req - Express request object containing firebase idToken.
+ * @param {Object} res - Express response object.
+ */
 const googleAuth = asyncHandler(async (req, res) => {
   // Check if Firebase Admin is properly configured
   if (!firebaseInitialized) {

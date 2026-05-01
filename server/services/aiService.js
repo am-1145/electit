@@ -7,7 +7,17 @@ const geminiService = require('./geminiService');
 const mistralService = require('./mistralService');
 const cacheService = require('./cacheService');
 
+/**
+ * AIService Class
+ * 
+ * Orchestrates AI generation requests between multiple providers (Mistral, Gemini)
+ * with a multi-tier failover system, cooldown management, and response caching.
+ * Implements performance tracking and fallback logic for high availability.
+ */
 class AIService {
+  /**
+   * Initializes the AIService with default stats and empty tracking arrays.
+   */
   constructor() {
     this.currentProvider = null;
     this.geminiAvailable = false;
@@ -74,6 +84,15 @@ class AIService {
   }
 
   // ── Main Generate Method ────────────────────────────────────
+  /**
+   * Generates AI content based on a user prompt and system instructions.
+   * Uses a cascading fallback system: Cache -> Mistral -> Gemini -> Hardcoded.
+   * 
+   * @param {string} prompt - The user's input prompt.
+   * @param {string} [systemPrompt=''] - Optional system-level instructions.
+   * @param {boolean} [useCache=true] - Whether to check the cache before generating.
+   * @returns {Promise<Object>} The generated content and provider metadata.
+   */
   async generate(prompt, systemPrompt = '', useCache = true) {
     this.stats.totalRequests++;
 

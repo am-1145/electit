@@ -10,11 +10,31 @@ import { trackLogin } from '../utils/analytics';
 import {
   FiMail, FiLock, FiUser, FiArrowRight, FiEye, FiEyeOff, FiShield
 } from 'react-icons/fi';
+import { screenReader } from '../utils/ScreenReaderService';
+
+/**
+ * AuthPage Component
+ * 
+ * Handles user authentication including login, registration, and Google OAuth.
+ * Implements accessible forms and screen reader announcements.
+ * 
+ * @returns {JSX.Element} The rendered Authentication page.
+ */
 
 export default function AuthPage() {
   const navigate = useNavigate();
   const { loginUser } = useUser();
   const [mode, setMode] = useState('login');
+
+  /**
+   * Toggles between login and registration modes.
+   * @param {string} newMode - 'login' or 'register'
+   */
+  const toggleMode = (newMode) => {
+    setMode(newMode);
+    screenReader.announce(`Switched to ${newMode === 'login' ? 'sign in' : 'create account'} mode`);
+  };
+
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
@@ -33,7 +53,6 @@ export default function AuthPage() {
           return;
         }
         res = await authRegister(form);
-        toast.success('Account created! 🎉');
       } else {
         if (!form.email || !form.password) {
           toast.error('Please fill in email and password.');
@@ -41,15 +60,19 @@ export default function AuthPage() {
           return;
         }
         res = await authLogin({ email: form.email, password: form.password });
-        toast.success('Welcome back! 🗳️');
       }
+
+      toast.success(mode === 'register' ? 'Account created! 🎉' : 'Welcome back! 🗳️');
+      screenReader.announce(mode === 'register' ? 'Account created successfully' : 'Signed in successfully', 'assertive');
 
       const { user, token } = res.data.data;
       loginUser(user, token);
       trackLogin(mode === 'register' ? 'email_register' : 'email_login');
       navigate(user.profileCompleted ? '/dashboard' : '/setup');
     } catch (err) {
-      toast.error(err.response?.data?.error || 'Authentication failed.');
+      const errorMsg = err.response?.data?.error || 'Authentication failed.';
+      toast.error(errorMsg);
+      screenReader.announce(errorMsg, 'assertive');
     } finally {
       setLoading(false);
     }
@@ -120,10 +143,11 @@ export default function AuthPage() {
             {/* Tab Switcher */}
             <div className="flex rounded-xl bg-bg-elevated p-1 mb-6" role="tablist" aria-label="Authentication mode">
               {['login', 'register'].map((tab) => (
-                <button key={tab} onClick={() => setMode(tab)}
+                <button key={tab} onClick={() => toggleMode(tab)}
                   role="tab"
                   aria-selected={mode === tab}
                   aria-controls="auth-form"
+                  aria-label={tab === 'login' ? 'Switch to sign in' : 'Switch to create account'}
                   className={`flex-1 py-2.5 text-sm font-medium rounded-lg transition-all ${mode === tab
                       ? 'bg-primary text-white shadow-md shadow-primary/20'
                       : 'text-text-muted hover:text-text-primary'

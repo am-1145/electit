@@ -31,33 +31,33 @@
 }
 
 :root {
-  --color-primary: #E65100;
-  /* Deep Saffron */
-  --color-primary-glow: #FF6D00;
-  --color-primary-dark: #BF360C;
-  --color-secondary: #1B5E20;
-  /* India Green */
-  --color-secondary-glow: #2E7D32;
-  --color-accent: #000080;
-  /* Navy / Ashoka Blue */
-  --color-accent-glow: #1A237E;
-  --color-warning: #DC2626;
+  --color-primary: #FF8000;
+  /* More Vibrant Saffron */
+  --color-primary-glow: #FFA040;
+  --color-primary-dark: #E65100;
+  --color-secondary: #008000;
+  /* More Vibrant India Green */
+  --color-secondary-glow: #00A300;
+  --color-accent: #0000CD;
+  /* More Vibrant Medium Blue */
+  --color-accent-glow: #4169E1;
+  --color-warning: #FF3333;
 
   --color-bg-dark: #FFFAF5;
   --color-bg-card: #FFFFFF;
-  --color-bg-elevated: #FFF3E0;
+  --color-bg-elevated: #FFF4E5;
   --color-bg-input: #FFFFFF;
 
-  --color-text-primary: #1A1A1A;
-  --color-text-secondary: #5D4037;
-  --color-text-muted: #8D6E63;
+  --color-text-primary: #121212;
+  --color-text-secondary: #4E342E;
+  --color-text-muted: #795548;
 
   --color-border: #FFCCBC;
   --color-border-glow: #FF9933;
 
-  --glass-bg: rgba(255, 255, 255, 0.92);
+  --glass-bg: rgba(255, 255, 255, 0.94);
   --glass-static-bg: #FFFFFF;
-  --chat-assistant-bg: #FFF3E0;
+  --chat-assistant-bg: #FFF8F0;
 }
 
 .dark {
@@ -153,8 +153,8 @@
 
 .glass-card:hover {
   border-color: var(--color-primary-glow);
-  box-shadow: 0 10px 15px -3px rgba(15, 61, 129, 0.1), 0 4px 6px -2px rgba(15, 61, 129, 0.05);
-  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -6px rgba(255, 128, 0, 0.15), 0 8px 12px -4px rgba(255, 128, 0, 0.05);
+  transform: translateY(-3px) scale(1.01);
 }
 
 .glass-card-static {

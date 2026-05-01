@@ -143,7 +143,10 @@ function App() {
   return (
     <UserProvider>
       <Router>
-        <AppRoutes />
+        <a href="#main-content" className="skip-link">Skip to Content</a>
+        <main id="main-content">
+          <AppRoutes />
+        </main>
         <Toaster
           position="top-right"
           toastOptions={{

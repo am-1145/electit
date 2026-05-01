@@ -10,6 +10,15 @@ import {
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
 const fadeUp = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } };
 
+/**
+ * LandingPage Component
+ * 
+ * The main landing page for VotePath AI.
+ * Displays features, statistics, and calls to action with a premium design.
+ * 
+ * @returns {JSX.Element} The rendered Landing page.
+ */
+
 const FEATURES = [
   { icon: <FiZap />, title: 'Personalized Journey', desc: 'AI creates YOUR unique voting roadmap based on your profile and location.', gradient: 'from-[#FF9933] to-[#E65100]' },
   { icon: <FiCheckCircle />, title: 'Smart Checklist', desc: 'Track every step — from registration to election day with readiness scores.', gradient: 'from-[#138808] to-[#1B5E20]' },
@@ -26,6 +35,17 @@ const STATS = [
   { end: 36, suffix: '', label: 'States & Union Territories' },
 ];
 
+/**
+ * CountUp Component
+ * 
+ * Animates a number from 0 to a target value when it comes into view.
+ * 
+ * @param {Object} props
+ * @param {number} props.end - The target number to count up to.
+ * @param {string} [props.suffix=''] - Optional suffix (e.g., 'M+', '%').
+ * @param {number} [props.decimals=0] - Number of decimal places.
+ * @param {number} [props.duration=2] - Animation duration in seconds.
+ */
 function CountUp({ end, suffix = '', decimals = 0, duration = 2 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
@@ -81,15 +101,15 @@ export default function LandingPage() {
             </div>
             <div>
               <span className="text-base font-bold gradient-text">VotePath AI</span>
-              <span className="hidden sm:inline text-xs text-text-muted ml-2">Election Journey Assistant</span>
+              <span className="hidden sm:inline text-xs text-text-muted ml-2" aria-hidden="true">Election Journey Assistant</span>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <Link to="/auth" className="text-sm text-text-secondary hover:text-primary transition-colors hidden sm:block">
               Sign In
             </Link>
-            <Link to="/auth" className="btn-primary text-xs px-4 py-2">
-              Get Started <FiChevronRight className="inline ml-0.5" size={14} />
+            <Link to="/auth" className="btn-primary text-xs px-4 py-2" aria-label="Get started with VotePath AI">
+              Get Started <FiChevronRight className="inline ml-0.5" size={14} aria-hidden="true" />
             </Link>
           </div>
         </div>

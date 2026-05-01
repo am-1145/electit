@@ -7,6 +7,7 @@ import {
   FiHelpCircle, FiZap, FiExternalLink
 } from 'react-icons/fi';
 import { trackChatMessage } from '../utils/analytics';
+import { screenReader } from '../utils/ScreenReaderService';
 
 const QUICK_QUESTIONS = [
   { label: 'How to register?', q: 'How do I register as a voter in India?' },
@@ -26,6 +27,14 @@ const QUICK_FACTS = [
   { label: 'Helpline', value: '1950', icon: '📞' },
 ];
 
+/**
+ * ChatPage Component
+ * 
+ * Provides an interactive AI-powered chat interface for election-related queries.
+ * Features voice synthesis, quick questions, and a custom markdown renderer.
+ * 
+ * @returns {JSX.Element} The rendered Chat page.
+ */
 export default function ChatPage() {
   const { user } = useUser();
   const [messages, setMessages] = useState([]);
@@ -84,12 +93,14 @@ export default function ChatPage() {
     setInput('');
     setMessages(prev => [...prev, { role: 'user', content: msgText }]);
     setSending(true);
+    screenReader.announce('Sending message, please wait for AI response');
 
     try {
       const { data } = await sendChatMessage(user._id, msgText);
       if (data.success) {
         setMessages(prev => [...prev, { role: 'assistant', content: data.data.reply }]);
         speak(data.data.reply);
+        screenReader.announce('AI response received', 'assertive');
         trackChatMessage(data.data.provider || 'unknown');
       }
     } catch {

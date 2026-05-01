@@ -79,6 +79,12 @@ app.get('/api/health', async (req, res) => {
       success: true,
       status: 'running',
       ai: aiStatus,
+      security: {
+        helmet: true,
+        rateLimiting: true,
+        mongoSanitize: true,
+        jwtAuth: true,
+      },
       timestamp: new Date().toISOString(),
     });
   } catch (err) {
